@@ -1,0 +1,12 @@
+RNV.mpr.bak
+RNV.mpr.lock
+deployment/
+nativemobile/
+resources/
+theme-cache/
+themesource/
+userlib/
+widgets/
+src/bld/
+src/rnv/node_modules/
+src/rnv/dist/
