@@ -11,6 +11,7 @@ Download one of the [releases](https://github.com/Entidad/mendix-react-native-tw
 cd ./mendix-react-native-video-webrtc
 npm install react-native-normalize
 npm install react-native-version-number
+npm install react-native-responsive-screen
 npm install https://github.com/blackuy/react-native-twilio-video-webrtc
 npm run build
 ```
