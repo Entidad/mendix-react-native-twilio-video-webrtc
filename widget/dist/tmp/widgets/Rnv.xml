@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="entidad.io.rnv.Rnv" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+		supportedPlatform="Native"
+		xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+	<name>Rnv</name>
+	<description>My widget description</description>
+	<icon/>
+	<properties>
+		<propertyGroup caption="General">
+			<property key="roomname" type="attribute" required="true">
+				<caption>Room Name</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="String"/>
+				</attributeTypes>
+			</property>
+			<property key="identity" type="attribute" required="true">
+				<caption>Identity</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="String"/>
+				</attributeTypes>
+			</property>
+			<property key="token" type="attribute" required="true">
+				<caption>Token</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="String"/>
+				</attributeTypes>
+			</property>
+		</propertyGroup>
+	</properties>
+</widget>
+
+

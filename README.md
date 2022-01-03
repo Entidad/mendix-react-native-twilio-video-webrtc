@@ -5,7 +5,7 @@ Mendix implementation of [blackuy/react-native-twilio-video-webrtc](https://gith
 TODO
 
 ## Usage
-Download one of the [releases](https://github.com/Entidad/mendix-react-native-twilio-video-webrtc/releases) or build from source as follows
+For the widget, download one of the [releases](https://github.com/Entidad/mendix-react-native-twilio-video-webrtc/releases) or build from source as follows
 
 ```
 cd ./mendix-react-native-video-webrtc
@@ -18,8 +18,32 @@ npm run build
 
 Deploy `entidad.RNTVW.mpk` to `$PROJ/widgets`, execute `Synchronize App Directory` in Mendix IDE (`alt-f4` or invoke `Menu/App/Synchronize App Directory`. Place the widget in some context passing component like a `DataView` and configure the widget attributes.
 
+Additionally, you will have to build an React Native target (e.g. Android APK). For this you will have to scaffold a source tree using the Mendix Modeler (Studio Pro) by selecting `App / Build Native Mobile App` from the main menu, and configure it for local building. With the source deployed on disk, you can then build the native target
+
+For Android, add the following at the end of `./android/build.gradle` to disable linting and javadoc generation
+
+```
+subprojects {
+    afterEvaluate {
+        if (getPlugins().hasPlugin('android') ||
+            getPlugins().hasPlugin('android-library')) {
+            configure(android.lintOptions) {
+                abortOnError false
+            }
+        }
+    }
+    tasks.withType(Javadoc).all { enabled = false }
+}
+```
+
+Then in `./android` run the following
+
+```
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ANDROID_SDK_ROOT=~/Android/Sdk/ ./gradlew build -x lint
+```
+
 ## Demo project
-None at this time
+A test project is provided under `./test`. This project contains Mendix React Native as well as Web artifacts for testing Twilio Video both Native and Web.
 
 ## Issues, suggestions and feature requests
 [GitHub](https://github.com/Entidad/mendix-react-native-twilio-video-webrtc/issues)

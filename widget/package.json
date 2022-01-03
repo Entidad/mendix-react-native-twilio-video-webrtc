@@ -1,0 +1,36 @@
+{
+  "name": "rnv",
+  "widgetName": "Rnv",
+  "version": "1.0.0",
+  "description": "My widget description",
+  "copyright": "BSD",
+  "author": "Ockert van Schalkwyk",
+  "engines": {
+    "node": ">=12"
+  },
+  "config": {
+    "projectPath": "../..//"
+  },
+  "packagePath": "entidad.io",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:native",
+    "build": "pluggable-widgets-tools build:native",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:native"
+  },
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/Ockert van Schalkwyk/rnv/issues"
+  },
+  "devDependencies": {
+    "@mendix/pluggable-widgets-tools": "^9.0.0"
+  },
+  "dependencies": {
+    "react-native-normalize": "^1.0.1",
+    "react-native-responsive-screen": "^1.4.2",
+    "react-native-twilio-video-webrtc": "github:blackuy/react-native-twilio-video-webrtc",
+    "react-native-version-number": "^0.3.6"
+  }
+}
