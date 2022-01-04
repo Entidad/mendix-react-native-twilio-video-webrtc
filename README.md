@@ -39,7 +39,7 @@ subprojects{
 Then in `./android` run the following
 
 ```
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ANDROID_SDK_ROOT=~/Android/Sdk/ ./gradlew build -x lint
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 ANDROID_SDK_ROOT=~/Android/Sdk/ ./gradlew build
 ```
 
 ## Demo project
