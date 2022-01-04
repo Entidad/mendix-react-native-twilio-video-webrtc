@@ -23,16 +23,16 @@ Additionally, you will have to build an React Native target (e.g. Android APK). 
 For Android, add the following at the end of `./android/build.gradle` to disable linting and javadoc generation
 
 ```
-subprojects {
-    afterEvaluate {
-        if (getPlugins().hasPlugin('android') ||
-            getPlugins().hasPlugin('android-library')) {
-            configure(android.lintOptions) {
-                abortOnError false
-            }
-        }
-    }
-    tasks.withType(Javadoc).all { enabled = false }
+subprojects{
+	afterEvaluate{
+		if (getPlugins().hasPlugin('android')||
+			getPlugins().hasPlugin('android-library')){
+			configure(android.lintOptions){
+				abortOnError false
+			}
+		}
+	}
+	tasks.withType(Javadoc).all{enabled=false}
 }
 ```
 
