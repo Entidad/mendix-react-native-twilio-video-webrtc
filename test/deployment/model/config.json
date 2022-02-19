@@ -1,0 +1,18 @@
+{
+  "Configuration": {
+    "DatabaseName": "default",
+    "DatabasePassword": "",
+    "DatabaseType": "HSQLDB",
+    "DatabaseHost": "",
+    "DatabaseUserName": "",
+    "DatabaseUseIntegratedSecurity": "False",
+    "ApplicationRootUrl": "http://localhost:8081/",
+    "ScheduledEventExecution": "None"
+  },
+  "Constants": {
+    "RNV.const_API_KEY_SECRET": "t8zfNb1wACjNe2cdfAYKkaAdUuSy3rjZ",
+    "RNV.const_ACCOUNT_SID": "ACc29e879e71d89433e88fca9a6a6b003b",
+    "RNV.const_API_KEY_SID": "SKe1e5ffcf46bc68a6da1c1f9c5a806bd8"
+  },
+  "AdminPassword": null
+}

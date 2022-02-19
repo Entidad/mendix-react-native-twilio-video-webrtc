@@ -1,4 +1,3 @@
-//sq
 //https://www.freecodecamp.org/news/building-video-call-app-in-react-native/
 import{
 	Component,
@@ -8,8 +7,6 @@ import{
 	Text,
 	View,
 	StyleSheet,
-	//TextInput,
-	//Button,
 	TouchableOpacity,
 	PermissionsAndroid,
 	TouchableHighlight
@@ -23,23 +20,15 @@ import normalize from"react-native-normalize";
 import{widthPercentageToDP as wp,heightPercentageToDP as hp}from"react-native-responsive-screen";
 const styles=StyleSheet.create({
 	container:{
-		flex:1,
-		backgroundColor:"white"
+		flex:1
 	},
 	callContainer:{
 		flex:1,
-		position:"absolute",
 		bottom:0,
 		top:0,
 		left:0,
 		right:0,
 		minHeight:"100%"
-	},
-	welcome:{
-		fontSize:30,
-		textAlign:"center",
-		paddingTop:40,
-		color:"#000000"
 	},
 	input:{
 		height:50,
@@ -68,8 +57,8 @@ const styles=StyleSheet.create({
 		zIndex:2
 	},
 	remoteGrid:{
-		flex:1,
-		flexDirection:"column"
+		//flex:1,
+		//flexDirection:"column"
 	},
 	remoteVideo:{
 		width:wp("100%"),
@@ -85,7 +74,7 @@ const styles=StyleSheet.create({
 		flexDirection:"row",
 		alignItems:"center",
 		justifyContent:"space-evenly",
-		zIndex:2
+		zIndex:8
 	},
 	optionButton:{
 		width:60,
@@ -110,16 +99,12 @@ const styles=StyleSheet.create({
 		justifyContent:"center",
 		alignItems:"center",
 		marginBottom:20,
-		width:wp("90%"),
 		borderRadius:30
 	},
 	loginButton:{
 		backgroundColor:"#1E3378",
-		width:wp("90%"),
 		justifyContent:"center",
-		alignItems:"center",
-		marginLeft:20,
-		marginTop:10
+		alignItems:"center"
 	},
 	Buttontext:{
 		color:"white",
@@ -143,95 +128,140 @@ const defaultStyle={
 export async function GetAllPermissions(){
 	//see also https://www.freecodecamp.org/news/building-video-call-app-in-react-native/
 	try{
-		//console.warn("P:0");
 		const userResponse=await PermissionsAndroid.requestMultiple([
 			PermissionsAndroid.PERMISSIONS.CAMERA,
 			PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
 			PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
 		]);
-		//console.log(userResponse);
-		//console.warn("P:1");
 		return userResponse;
 	}catch(err){
-		console.warn(err);
+		this.log(err);
 	}
 	return null;
 }
 export class RnvComp extends Component{
-	state={
-		isAudioEnabled:true,
-		isVideoEnabled:true,
-		isButtonDisplay:true,
-		status:"disconnected",
-		participants:new Map(),
-		videoTracks:new Map(),
-		identity:"",
-		roomName:"",
-		token:""
-	};
+	constructor(props){
+		super(props);
+		this.cnam="RnvComp";
+		this.log("constructor:beg");
+		this.state={
+			isAudioEnabled:true,
+			isVideoEnabled:true,
+			isButtonDisplay:true,
+			status:"disconnected",
+			participants:new Map(),
+			videoTracks:new Map(),
+			autoconnect:this.props.autoconnect,
+			identity:this.props.identity,
+			roomName:this.props.roomname,
+			token:this.props.token
+		};
+		this.log("constructor:end");
+	}
+	log(v){
+		if(this.props.debugon)console.error(`${this.cnam}:${typeof(v)=="object"?JSON.stringify(v):v}`);
+	}
 	componentDidMount(){
-		//console.warn("componentDidMount");
-		//console.warn(this.state.status);
+		this.log("componentDidMount:beg");
+		this.refs.twilioVideo.disconnect();
 		GetAllPermissions();
+		this.log("componentDidMount:end");
+	}
+	componentDidUpdate(prvprops,prvstate){
+		this.log("componentDidUpdate:beg");
+		this.log(`componentDidUpdate:${prvprops.roomname}->${this.props.roomname}`);
+		this.log(`componentDidUpdate:${prvprops.identity}->${this.props.identity}`);
+		this.log(`componentDidUpdate:${prvprops.token}->${this.props.token}`);
+		this.log(`componentDidUpdate:${prvprops.autoconnect}->${this.props.autoconnect}`);
+		/* handle autocon (needs to be renamed) */
+		/* also needs to be manipulated from video events as required */
+		if(
+			this.state.status=="disconnected"&&
+			prvprops.autoconnect!=this.props.autoconnect&&
+			this.props.autoconnect
+		){
+			this.log(`componentDidUpdate:connecting`);
+			this._onConnectButtonPress();
+		}else if(
+			this.state.status=="connected"&&
+			prvprops.autoconnect!=this.props.autoconnect&&
+			!this.props.autoconnect
+		){
+			this.log(`componentDidUpdate:disconnecting`);
+			this._onEndButtonPress();
+		}
+		this.log("componentDidUpdate:end");
+	}
+
+	componentWillUnmount(){
+		this.log("componentWillUnmount:beg");
+		try{
+			this.setState({status:"disconnected"})
+			this.setState({participants:new Map()})
+			this.setState({videoTracks:new Map()})
+			this.refs.twilioVideo.disconnect()
+		}catch(e){
+			console.error(e.toString());
+		}
+		this.log("componentWillUnmount:end");
 	}
 	_onConnectButtonPress=()=>{
-		//console.warn("_onConnectButtonPress");
-		//console.warn(this.state.roomName);
-		//console.warn(this.state.token);
-		//console.warn(this.state.identity);
-		this.refs.twilioVideo.connect({roomName:this.state.roomName,accessToken:this.state.token});
-		this.setState({status:"connecting"})
+		this.log("_onConnectButtonPress:beg");
+		if(
+			this.props.roomname!=""&&
+			this.props.token!=""
+		){
+			this.refs.twilioVideo.connect({
+				roomName:this.props.roomname,
+				accessToken:this.props.token
+			});
+			this.setState({status:"connecting"})
+		}
+		this.log("_onConnectButtonPress:end");
 	};
 	_onEndButtonPress=()=>{
-		//console.warn("_onEndButtonPress");
-		//console.warn(this.state.status);
+		this.log("_onEndButtonPress:beg");
 		this.refs.twilioVideo.disconnect()
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.log("_onEndButtonPress:end");
 	};
 	_onMuteButtonPress=()=>{
-		//Mon Jan  3 17:20:00 SAST 2022
-		//-
-		//Mon Jan  3 17:10:00 SAST 2022
-		//console.warn("_onMuteButtonPress");
-		//console.warn(this.state.status);
+		this.log("_onMuteButtonPress:beg");
 		this.refs.twilioVideo
 			.setLocalAudioEnabled(!this.state.isAudioEnabled)
-			.then(
-				(isEnabled)=>{
-					this.setState({isAudioEnabled:isEnabled})
-				}
-			);
+			.then(isEnabled=>{
+				this.setState({isAudioEnabled:isEnabled})
+			});
+		this.log("_onMuteButtonPress:end");
 	};
 	_onFlipButtonPress=()=>{
-		//console.warn("_onFlipButtonPress");
-		//console.warn(this.state.status);
+		this.log("_onFlipButtonPress:beg");
 		this.refs.twilioVideo.flipCamera();
+		this.log("_onFlipButtonPress:end");
 	};
 	_onRoomDidConnect=()=>{
-		//console.warn("_onRoomDidConnect");
-		//setProps({...props, status: 'connected'});
-		//setStatus('connected');
-		//console.warn(this.state.status);
+		this.log("_onRoomDidConnect:beg");
 		this.setState({status:"connected"});
-		//this.state.status="connected";//setState({status:"connected"})
-		//console.warn(this.state.status);
+		this.log("_onRoomDidConnect:end");
 	};
 	_onRoomDidDisconnect=({roomName,error})=>{
-		//console.warn("_onRoomDidDisconnect");
+		this.log("_onRoomDidDisconnect:beg");
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.log("_onRoomDidDisconnect:end");
 	};
 	_onRoomDidFailToConnect=(error)=>{
-		//console.warn("_onRoomDidFailToConnect");
+		this.log("_onRoomDidFailToConnect:beg");
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.log("_onRoomDidFailToConnect:end");
 	};
 	_onParticipantAddedVideoTrack=({participant,track})=>{
-		//console.warn("_onParticipantAddedVideoTrack");
+		this.log("_onParticipantAddedVideoTrack:beg");
 		this.setState({
 			videoTracks:new Map([
 				...this.state.videoTracks,
@@ -244,13 +274,12 @@ export class RnvComp extends Component{
 				]
 			]),
 		});
+		this.log("_onParticipantAddedVideoTrack:end");
 	};
 	_onParticipantRemovedVideoTrack=({participant,track})=>{
-		//console.warn("_onParticipantRemovedVideoTrack");
-		alert("_onParticipantRemovedVideoTrack");
+		this.log("_onParticipantRemovedVideoTrack:beg");
 		const videoTracks=this.state.videoTracks
 		videoTracks.delete(track.trackSid)
-		//this.setState({videoTracks:{...videoTracks}})
 		/*
 		const videoTracks=this.state.videoTracks;
 		this.state.videoTracks.delete(track.trackSid);
@@ -260,11 +289,16 @@ export class RnvComp extends Component{
 			}
 		});
 		*/
+		this.log("_onParticipantRemovedVideoTrack:end");
 	};
 	render(){
-		this.state.identity=this.props.identity||"identity";
-		this.state.roomName=this.props.roomname||"roomname";
-		this.state.token=this.props.token||"token";
+		this.log("render:beg");
+const roomname=this.props.roomname;
+const identity=this.props.identity;
+const token=this.props.token;
+const style=this.props.style;
+const autoconnect=this.props.autoconnect;
+		this.log("render:end");
 		return(
 			<View style={styles.container}>
 			{
@@ -320,8 +354,6 @@ export class RnvComp extends Component{
 								flexDirection:"row",
 								alignItems:"center",
 								justifyContent:"space-evenly",
-								//backgroundColor:"blue",
-								//zIndex: 2,
 								zIndex:this.state.isButtonDisplay?2:0,
 							}
 						}

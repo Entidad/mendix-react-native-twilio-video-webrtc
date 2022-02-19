@@ -1,0 +1,11 @@
+Buildfile: C:\Users\ockert\src\entidad\mendix-react-native-twilio-video-webrtc\test\deployment\build_core.xml
+
+deploy:
+     [copy] Copying 41 files to C:\Users\ockert\src\entidad\mendix-react-native-twilio-video-webrtc\test\deployment
+     [copy] Copying 2 files to C:\Users\ockert\src\entidad\mendix-react-native-twilio-video-webrtc\test\deployment\model\lib\userlib
+     [copy] Copying 5 files to C:\Users\ockert\src\entidad\mendix-react-native-twilio-video-webrtc\test\deployment\model\resources
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
