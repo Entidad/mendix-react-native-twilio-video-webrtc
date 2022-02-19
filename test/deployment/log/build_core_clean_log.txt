@@ -1,8 +1,0 @@
-Buildfile: C:\Users\ockert\src\entidad\mendix-react-native-twilio-video-webrtc\test\deployment\build_core.xml
-
-clean:
-
-BUILD SUCCESSFUL
-Total time: 0 seconds
-
-
