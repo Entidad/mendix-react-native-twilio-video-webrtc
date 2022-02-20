@@ -29,8 +29,29 @@
 					<attributeType name="String"/>
 				</attributeTypes>
 			</property>
-			<property key="autoconnect" type="attribute" required="true">
-				<caption>Autoconnect</caption>
+			<property key="connect" type="attribute" required="false">
+				<caption>Connect</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="Boolean"/>
+				</attributeTypes>
+			</property>
+			<property key="connected" type="attribute" required="false">
+				<caption>Connected</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="Boolean"/>
+				</attributeTypes>
+			</property>
+			<property key="mute" type="attribute" required="false">
+				<caption>Mute</caption>
+				<description/>
+				<attributeTypes>
+					<attributeType name="Boolean"/>
+				</attributeTypes>
+			</property>
+			<property key="muted" type="attribute" required="false">
+				<caption>Muted</caption>
 				<description/>
 				<attributeTypes>
 					<attributeType name="Boolean"/>
@@ -40,7 +61,46 @@
 				<caption>Debug</caption>
 				<description>Debug messages on</description>
 			</property>
-
+		</propertyGroup>
+		<propertyGroup caption="Events 1">
+			<property key="onConnectAction" type="action" required="false">
+				<caption>On connect</caption>
+				<description/>
+			</property>
+			<property key="onDisconnectAction" type="action" required="false">
+				<caption>On disconnect</caption>
+				<description/>
+			</property>
+			<property key="onMuteAction" type="action" required="false">
+				<caption>On mute</caption>
+				<description/>
+			</property>
+			<property key="onUnmuteAction" type="action" required="false">
+				<caption>On unmute</caption>
+				<description/>
+			</property>
+			<property key="onFlipAction" type="action" required="false">
+				<caption>On flip</caption>
+				<description/>
+			</property>
+			<property key="onErrorAction" type="action" required="false">
+				<caption>On error</caption>
+				<description/>
+			</property>
+		</propertyGroup>
+		<propertyGroup caption="Events 2">
+			<property key="onParticipantAddedAction" type="action" required="false">
+				<caption>On participant added</caption>
+				<description/>
+			</property>
+			<property key="onParticipantRemovedAction" type="action" required="false">
+				<caption>On participant removed</caption>
+				<description/>
+			</property>
+			<property key="onUnmountAction" type="action" required="false">
+				<caption>On component unmount</caption>
+				<description/>
+			</property>
 		</propertyGroup>
 	</properties>
 </widget>

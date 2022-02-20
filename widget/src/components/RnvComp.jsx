@@ -151,7 +151,10 @@ export class RnvComp extends Component{
 			status:"disconnected",
 			participants:new Map(),
 			videoTracks:new Map(),
-			autoconnect:this.props.autoconnect,
+			connect:this.props.connect,
+			connected:this.props.connected,
+			mute:this.props.mute,
+			muted:this.props.muted,
 			identity:this.props.identity,
 			roomName:this.props.roomname,
 			token:this.props.token
@@ -172,20 +175,20 @@ export class RnvComp extends Component{
 		this.log(`componentDidUpdate:${prvprops.roomname}->${this.props.roomname}`);
 		this.log(`componentDidUpdate:${prvprops.identity}->${this.props.identity}`);
 		this.log(`componentDidUpdate:${prvprops.token}->${this.props.token}`);
-		this.log(`componentDidUpdate:${prvprops.autoconnect}->${this.props.autoconnect}`);
+		this.log(`componentDidUpdate:${prvprops.connect}->${this.props.connect}`);
 		/* handle autocon (needs to be renamed) */
 		/* also needs to be manipulated from video events as required */
 		if(
 			this.state.status=="disconnected"&&
-			prvprops.autoconnect!=this.props.autoconnect&&
-			this.props.autoconnect
+			prvprops.connect!=this.props.connect&&
+			this.props.connect
 		){
 			this.log(`componentDidUpdate:connecting`);
 			this._onConnectButtonPress();
 		}else if(
 			this.state.status=="connected"&&
-			prvprops.autoconnect!=this.props.autoconnect&&
-			!this.props.autoconnect
+			prvprops.connect!=this.props.connect&&
+			!this.props.connect
 		){
 			this.log(`componentDidUpdate:disconnecting`);
 			this._onEndButtonPress();
@@ -233,6 +236,11 @@ export class RnvComp extends Component{
 			.setLocalAudioEnabled(!this.state.isAudioEnabled)
 			.then(isEnabled=>{
 				this.setState({isAudioEnabled:isEnabled})
+				if(isEnabled){
+					this.props.onMuteAction();
+				}else{
+					this.props.onUnmuteAction();
+				}
 			});
 		this.log("_onMuteButtonPress:end");
 	};
@@ -240,10 +248,12 @@ export class RnvComp extends Component{
 		this.log("_onFlipButtonPress:beg");
 		this.refs.twilioVideo.flipCamera();
 		this.log("_onFlipButtonPress:end");
+		this.props.onFlipAction();
 	};
 	_onRoomDidConnect=()=>{
 		this.log("_onRoomDidConnect:beg");
 		this.setState({status:"connected"});
+		this.props.onConnectAction();
 		this.log("_onRoomDidConnect:end");
 	};
 	_onRoomDidDisconnect=({roomName,error})=>{
@@ -251,6 +261,7 @@ export class RnvComp extends Component{
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.props.onDisconnectAction();
 		this.log("_onRoomDidDisconnect:end");
 	};
 	_onRoomDidFailToConnect=(error)=>{
@@ -258,6 +269,7 @@ export class RnvComp extends Component{
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.props.onErrorAction();
 		this.log("_onRoomDidFailToConnect:end");
 	};
 	_onParticipantAddedVideoTrack=({participant,track})=>{
@@ -274,6 +286,7 @@ export class RnvComp extends Component{
 				]
 			]),
 		});
+		this.props.onParticipantAddedAction();
 		this.log("_onParticipantAddedVideoTrack:end");
 	};
 	_onParticipantRemovedVideoTrack=({participant,track})=>{
@@ -289,15 +302,19 @@ export class RnvComp extends Component{
 			}
 		});
 		*/
+		this.props.onParticipantRemovedAction();
 		this.log("_onParticipantRemovedVideoTrack:end");
 	};
 	render(){
 		this.log("render:beg");
-const roomname=this.props.roomname;
-const identity=this.props.identity;
-const token=this.props.token;
-const style=this.props.style;
-const autoconnect=this.props.autoconnect;
+		const roomname=this.props.roomname;
+		const identity=this.props.identity;
+		const token=this.props.token;
+		const style=this.props.style;
+		const connect=this.props.connect;
+		const connected=this.props.connected;
+		const mute=this.props.mute;
+		const muted=this.props.muted;
 		this.log("render:end");
 		return(
 			<View style={styles.container}>
