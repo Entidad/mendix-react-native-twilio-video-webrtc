@@ -1,9 +1,10 @@
 import{Component,createElement}from"react";
-import{RnvComp}from"./components/RnvComp";
-export class Rnv extends Component{
+import{Big}from"big.js";
+import{ReactNativeVideoComponent}from"./components/ReactNativeVideoComponent";
+export class ReactNativeVideo extends Component{
 	constructor(props){
 		super(props);
-		this.cnam="Rnv";
+		this.cnam="ReactNativeVideo";
 		this.log(`${this.cnam}:constructor:beg`);
 		this.log(`${this.cnam}:constructor:end`);
 	}
@@ -14,11 +15,20 @@ export class Rnv extends Component{
 	}
 	componentDidUpdate(prvprops,prvstate){
 		this.log(`componentDidUpdate:beg`);
-		this.log(`componentDidUpdate:${JSON.stringify(prvprops.roomname.value)}->${JSON.stringify(this.props.roomname.value)}`);
-		this.log(`componentDidUpdate:${JSON.stringify(prvprops.identity.value)}->${JSON.stringify(this.props.identity.value)}`);
-		this.log(`componentDidUpdate:${JSON.stringify(prvprops.token.value)}->${JSON.stringify(this.props.token.value)}`);
-		this.log(`componentDidUpdate:${JSON.stringify(prvprops.connect.value)}->${JSON.stringify(this.props.connect.value)}`);
+		/*
+		this.log(`componentDidUpdate:roomname:  ${JSON.stringify(prvprops.roomname.value)}->${JSON.stringify(this.props.roomname.value)}`);
+		this.log(`componentDidUpdate:identity:  ${JSON.stringify(prvprops.identity.value)}->${JSON.stringify(this.props.identity.value)}`);
+		this.log(`componentDidUpdate:token:     ${JSON.stringify(prvprops.token.value)}->${JSON.stringify(this.props.token.value)}`);
+		this.log(`componentDidUpdate:connect:   ${JSON.stringify(prvprops.connect.value)}->${JSON.stringify(this.props.connect.value)}`);
+		this.log(`componentDidUpdate:connected: ${JSON.stringify(prvprops.connected.value)}->${JSON.stringify(this.props.connected.value)}`);
+		this.log(`componentDidUpdate:mute:      ${JSON.stringify(prvprops.mute.value)}->${JSON.stringify(this.props.mute.value)}`);
+		this.log(`componentDidUpdate:muted:     ${JSON.stringify(prvprops.muted.value)}->${JSON.stringify(this.props.muted.value)}`);
+		*/
 		this.log(`componentDidUpdate:end`);
+	}
+	componentDidMount(){
+		this.log("componentDidMount:beg");
+		this.log("componentDidMount:end");
 	}
 	componentWillUnmount(){
 		this.log(`componentWillUnmount:beg`);
@@ -28,6 +38,7 @@ export class Rnv extends Component{
 	onConnectAction(){
 		this.log(`onConnectAction:beg`);
 		if(this.props.connected&&this.props.connected.status=="available")this.props.connected.setValue(true);
+		if(this.props.participants&&this.props.participants.status=="available")this.props.participants.setValue(new Big(0));
 		if(
 			this.props.onConnectAction
 		){
@@ -47,6 +58,8 @@ export class Rnv extends Component{
 	onDisconnectAction(){
 		this.log(`onDisconnectAction:beg`);
 		if(this.props.connected&&this.props.connected.status=="available")this.props.connected.setValue(false);
+		if(this.props.muted&&this.props.muted.status=="available")this.props.muted.setValue(false);
+		if(this.props.participants&&this.props.participants.status=="available")this.props.participants.setValue(new Big(0));
 		if(
 			this.props.onDisconnectAction
 		){
@@ -140,6 +153,9 @@ export class Rnv extends Component{
 	}
 	onParticipantAddedAction(){
 		this.log(`onParticipantAddedAction:beg`);
+		if(this.props.participants&&this.props.participants.status=="available"){
+			this.props.participants.setValue(isNaN(this.props.participants.value)?new Big(1):(new Big(this.props.participants.value+1)));
+		}
 		if(
 			this.props.onParticipantAddedAction
 		){
@@ -158,6 +174,9 @@ export class Rnv extends Component{
 	}
 	onParticipantRemovedAction(){
 		this.log(`onParticipantRemovedAction:beg`);
+		if(this.props.participants&&this.props.participants.status=="available"){
+			this.props.participants.setValue(isNaN(this.props.participants.value)?new Big(1):(new Big(this.props.participants.value-1)));
+		}
 		if(
 			this.props.onParticipantRemovedAction
 		){
@@ -177,6 +196,7 @@ export class Rnv extends Component{
 	onUnmountAction(){
 		this.log(`onUnmountAction:beg`);
 		if(this.props.connected&&this.props.connected.status=="available")this.props.connected.setValue(false);
+		if(this.props.muted&&this.props.muted.status=="available")this.props.muted.setValue(false);
 		if(
 			this.props.onUnmountAction
 		){
@@ -200,12 +220,15 @@ export class Rnv extends Component{
 		const roomname=this.props.roomname.value||"";
 		const identity=this.props.identity.value||"";
 		const token=this.props.token.value||"";
-		const connect=this.props.connect.value||false;
-		const connected=this.props.connect.value||false;
-		const mute=this.props.connect.value||false;
-		const muted=this.props.connect.value||false;
+		const connect=this.props.connect?this.props.connect.value||false:false;
+		const connected=this.props.connect?this.props.connect.value||false:false;
+		const mute=this.props.connect?this.props.connect.value||false:false;
+		const muted=this.props.connect?this.props.connect.value||false:false;
+
+		//this.props.participants.setValue('42');
+
 		this.log(`render:end`);
-		return<RnvComp
+		return<ReactNativeVideoComponent
 			roomname={roomname}
 			identity={identity}
 			token={token}

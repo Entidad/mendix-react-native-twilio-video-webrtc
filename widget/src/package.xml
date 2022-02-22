@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <package xmlns="http://www.mendix.com/package/1.0/">
-    <clientModule name="Rnv" version="1.0.0" xmlns="http://www.mendix.com/clientModule/1.0/">
+    <clientModule name="React Native Video" version="1.0.0" xmlns="http://www.mendix.com/clientModule/1.0/">
         <widgetFiles>
-            <widgetFile path="Rnv.xml"/>
+            <widgetFile path="ReactNativeVideo.xml"/>
         </widgetFiles>
         <files>
-            <file path="entidad/io/rnv"/>
+            <file path="entidad/io/reactnativevideo"/>
         </files>
     </clientModule>
 </package>

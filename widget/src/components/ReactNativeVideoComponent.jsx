@@ -139,7 +139,7 @@ export async function GetAllPermissions(){
 	}
 	return null;
 }
-export class RnvComp extends Component{
+export class ReactNativeVideoComponent extends Component{
 	constructor(props){
 		super(props);
 		this.cnam="RnvComp";
@@ -172,10 +172,15 @@ export class RnvComp extends Component{
 	}
 	componentDidUpdate(prvprops,prvstate){
 		this.log("componentDidUpdate:beg");
-		this.log(`componentDidUpdate:${prvprops.roomname}->${this.props.roomname}`);
-		this.log(`componentDidUpdate:${prvprops.identity}->${this.props.identity}`);
-		this.log(`componentDidUpdate:${prvprops.token}->${this.props.token}`);
-		this.log(`componentDidUpdate:${prvprops.connect}->${this.props.connect}`);
+		/*
+		this.log(`componentDidUpdate:roomname:  ${prvprops.roomname}->${this.props.roomname}`);
+		this.log(`componentDidUpdate:identity:  ${prvprops.identity}->${this.props.identity}`);
+		this.log(`componentDidUpdate:token:     ${prvprops.token}->${this.props.token}`);
+		this.log(`componentDidUpdate:connect:   ${prvprops.connect}->${this.props.connect}`);
+		this.log(`componentDidUpdate:connected: ${prvprops.connected}->${this.props.connected}`);
+		this.log(`componentDidUpdate:mute:      ${prvprops.mute}->${this.props.mute}`);
+		this.log(`componentDidUpdate:muted:     ${prvprops.muted}->${this.props.muted}`);
+		*/
 		/* handle autocon (needs to be renamed) */
 		/* also needs to be manipulated from video events as required */
 		if(
@@ -193,9 +198,22 @@ export class RnvComp extends Component{
 			this.log(`componentDidUpdate:disconnecting`);
 			this._onEndButtonPress();
 		}
+		/* mute */
+		if(
+			prvprops.mute!=this.props.mute&&
+			this.props.mute
+		){
+			this.log(`componentDidUpdate:muting`);
+			this._onMuteButtonPress();
+		}else if(
+			prvprops.mute!=this.props.mute&&
+			!this.props.mute
+		){
+			this.log(`componentDidUpdate:unmuting`);
+			this._onMuteButtonPress();
+		}
 		this.log("componentDidUpdate:end");
 	}
-
 	componentWillUnmount(){
 		this.log("componentWillUnmount:beg");
 		try{

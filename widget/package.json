@@ -1,15 +1,15 @@
 {
-  "name": "rnv",
-  "widgetName": "Rnv",
+  "name": "React Native Video",
+  "widgetName": "ReactNativeVideo",
   "version": "1.0.0",
-  "description": "My widget description",
+  "description": "React Native Video Widget",
   "copyright": "BSD",
   "author": "Ockert van Schalkwyk",
   "engines": {
     "node": ">=12"
   },
   "config": {
-    "projectPath": "../test/"
+    "projectPath": "../../"
   },
   "packagePath": "entidad.io",
   "scripts": {
