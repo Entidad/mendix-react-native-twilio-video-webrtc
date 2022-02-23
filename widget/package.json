@@ -1,7 +1,7 @@
 {
   "name": "ReactNativeVideo",
   "widgetName": "ReactNativeVideo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React Native Video Widget",
   "copyright": "BSD",
   "author": "Ockert van Schalkwyk",
