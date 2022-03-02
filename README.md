@@ -16,7 +16,7 @@ npm install https://github.com/blackuy/react-native-twilio-video-webrtc
 npm run build
 ```
 
-Deploy `entidad.RNTVW.mpk` to `$PROJ/widgets`, execute `Synchronize App Directory` in Mendix IDE (`alt-f4` or invoke `Menu/App/Synchronize App Directory`. Place the widget in some context passing component like a `DataView` and configure the widget attributes.
+Deploy `entidad.ReactNativeVideo.mpk` to `$PROJ/widgets`, execute `Synchronize App Directory` in Mendix IDE (`alt-f4` or invoke `Menu/App/Synchronize App Directory`. Place the widget in some context passing component like a `DataView` and configure the widget attributes.
 
 Additionally, you will have to build an React Native target (e.g. Android APK). For this you will have to scaffold a source tree using the Mendix Modeler (Studio Pro) by selecting `App / Build Native Mobile App` from the main menu, and configure it for local building. With the source deployed on disk, you can then build the native target
 
