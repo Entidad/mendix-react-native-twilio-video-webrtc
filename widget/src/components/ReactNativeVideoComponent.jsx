@@ -18,6 +18,16 @@ import {
 }from"react-native-twilio-video-webrtc";
 import normalize from"react-native-normalize";
 import{widthPercentageToDP as wp,heightPercentageToDP as hp}from"react-native-responsive-screen";
+/* -------------------------------------------------------------------------------- */
+/* Tue Mar  1 15:45:20 SAST 2022                                                    */
+/* -------------------------------------------------------------------------------- */
+import {
+  checkMultiple,
+  request,
+  requestMultiple,
+  PERMISSIONS,
+  RESULTS,
+} from 'react-native-permissions';
 const styles=StyleSheet.create({
 	container:{
 		flex:1
@@ -125,6 +135,7 @@ const defaultStyle={
 		color:"#F6BB42"
 	}
 };
+/*
 export async function GetAllPermissions(){
 	//see also https://www.freecodecamp.org/news/building-video-call-app-in-react-native/
 	try{
@@ -139,6 +150,77 @@ export async function GetAllPermissions(){
 	}
 	return null;
 }
+*/
+/* -------------------------------------------------------------------------------- */
+/* Tue Mar  1 15:45:20 SAST 2022                                                    */
+/* -------------------------------------------------------------------------------- */
+//const _checkPermissions = (callback) => {
+export function GetAllPermissions(){
+	const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
+	const androidPermissions = [
+		PERMISSIONS.ANDROID.CAMERA,
+		PERMISSIONS.ANDROID.RECORD_AUDIO,
+	];
+	checkMultiple(
+		Platform.OS === 'ios' ? iosPermissions : androidPermissions,
+	).then((statuses) => {
+		const [CAMERA, AUDIO] =
+			Platform.OS === 'ios' ? iosPermissions : androidPermissions;
+		if (
+			statuses[CAMERA] === RESULTS.UNAVAILABLE ||
+			statuses[AUDIO] === RESULTS.UNAVAILABLE
+		) {
+			alert(
+				'Error',
+				'Hardware to support video calls is not available',
+			);
+		} else if (
+			statuses[CAMERA] === RESULTS.BLOCKED ||
+			statuses[AUDIO] === RESULTS.BLOCKED
+		) {
+			alert(
+				'Error',
+				'Permission to access hardware was blocked, please grant manually',
+			);
+		} else {
+			if (
+				statuses[CAMERA] === RESULTS.DENIED &&
+				statuses[AUDIO] === RESULTS.DENIED
+			) {
+				requestMultiple(
+					Platform.OS === 'ios' ? iosPermissions : androidPermissions,
+				).then((newStatuses) => {
+					if (
+						newStatuses[CAMERA] === RESULTS.GRANTED &&
+						newStatuses[AUDIO] === RESULTS.GRANTED
+					) {
+						//callback && callback();
+					} else {
+						alert('Error', 'One of the permissions was not granted');
+					}
+				});
+			} else if (
+				statuses[CAMERA] === RESULTS.DENIED ||
+				statuses[AUDIO] === RESULTS.DENIED
+			) {
+				request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
+					(result) => {
+						if (result === RESULTS.GRANTED) {
+							//callback && callback();
+						} else {
+							alert('Error', 'Permission not granted');
+						}
+					},
+				);
+			} else if (
+				statuses[CAMERA] === RESULTS.GRANTED ||
+				statuses[AUDIO] === RESULTS.GRANTED
+			) {
+				//callback && callback();
+			}
+		}
+	});
+};
 export class ReactNativeVideoComponent extends Component{
 	constructor(props){
 		super(props);
@@ -166,7 +248,8 @@ export class ReactNativeVideoComponent extends Component{
 	}
 	componentDidMount(){
 		this.log("componentDidMount:beg");
-		this.refs.twilioVideo.disconnect();
+		//alert("CHANGED");
+		//this.refs.twilioVideo.disconnect();//Tue Mar  1 18:03:34 SAST 2022
 		GetAllPermissions();
 		this.log("componentDidMount:end");
 	}
