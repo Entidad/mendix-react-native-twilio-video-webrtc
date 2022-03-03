@@ -22,7 +22,12 @@ public class Ctx
 	{
 		Ident("Ident"),
 		RoomName("RoomName"),
-		Tok("Tok");
+		Tok("Tok"),
+		Connect("Connect"),
+		Connected("Connected"),
+		Mute("Mute"),
+		Muted("Muted"),
+		Participants("Participants");
 
 		private java.lang.String metaName;
 
@@ -215,6 +220,186 @@ public class Ctx
 	public final void setTok(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String tok)
 	{
 		getMendixObject().setValue(context, MemberNames.Tok.toString(), tok);
+	}
+
+	/**
+	 * @return value of Connect
+	 */
+	public final java.lang.Boolean getConnect()
+	{
+		return getConnect(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Connect
+	 */
+	public final java.lang.Boolean getConnect(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.Connect.toString());
+	}
+
+	/**
+	 * Set value of Connect
+	 * @param connect
+	 */
+	public final void setConnect(java.lang.Boolean connect)
+	{
+		setConnect(getContext(), connect);
+	}
+
+	/**
+	 * Set value of Connect
+	 * @param context
+	 * @param connect
+	 */
+	public final void setConnect(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean connect)
+	{
+		getMendixObject().setValue(context, MemberNames.Connect.toString(), connect);
+	}
+
+	/**
+	 * @return value of Connected
+	 */
+	public final java.lang.Boolean getConnected()
+	{
+		return getConnected(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Connected
+	 */
+	public final java.lang.Boolean getConnected(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.Connected.toString());
+	}
+
+	/**
+	 * Set value of Connected
+	 * @param connected
+	 */
+	public final void setConnected(java.lang.Boolean connected)
+	{
+		setConnected(getContext(), connected);
+	}
+
+	/**
+	 * Set value of Connected
+	 * @param context
+	 * @param connected
+	 */
+	public final void setConnected(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean connected)
+	{
+		getMendixObject().setValue(context, MemberNames.Connected.toString(), connected);
+	}
+
+	/**
+	 * @return value of Mute
+	 */
+	public final java.lang.Boolean getMute()
+	{
+		return getMute(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Mute
+	 */
+	public final java.lang.Boolean getMute(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.Mute.toString());
+	}
+
+	/**
+	 * Set value of Mute
+	 * @param mute
+	 */
+	public final void setMute(java.lang.Boolean mute)
+	{
+		setMute(getContext(), mute);
+	}
+
+	/**
+	 * Set value of Mute
+	 * @param context
+	 * @param mute
+	 */
+	public final void setMute(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean mute)
+	{
+		getMendixObject().setValue(context, MemberNames.Mute.toString(), mute);
+	}
+
+	/**
+	 * @return value of Muted
+	 */
+	public final java.lang.Boolean getMuted()
+	{
+		return getMuted(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Muted
+	 */
+	public final java.lang.Boolean getMuted(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.Muted.toString());
+	}
+
+	/**
+	 * Set value of Muted
+	 * @param muted
+	 */
+	public final void setMuted(java.lang.Boolean muted)
+	{
+		setMuted(getContext(), muted);
+	}
+
+	/**
+	 * Set value of Muted
+	 * @param context
+	 * @param muted
+	 */
+	public final void setMuted(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean muted)
+	{
+		getMendixObject().setValue(context, MemberNames.Muted.toString(), muted);
+	}
+
+	/**
+	 * @return value of Participants
+	 */
+	public final java.lang.Integer getParticipants()
+	{
+		return getParticipants(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Participants
+	 */
+	public final java.lang.Integer getParticipants(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Integer) getMendixObject().getValue(context, MemberNames.Participants.toString());
+	}
+
+	/**
+	 * Set value of Participants
+	 * @param participants
+	 */
+	public final void setParticipants(java.lang.Integer participants)
+	{
+		setParticipants(getContext(), participants);
+	}
+
+	/**
+	 * Set value of Participants
+	 * @param context
+	 * @param participants
+	 */
+	public final void setParticipants(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Integer participants)
+	{
+		getMendixObject().setValue(context, MemberNames.Participants.toString(), participants);
 	}
 
 	/**

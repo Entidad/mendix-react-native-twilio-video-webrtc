@@ -9,7 +9,7 @@
     "node": ">=12"
   },
   "config": {
-    "projectPath": "../../../../Esencial/Esencial-main/"
+    "projectPath": "../test/"
   },
   "packagePath": "entidad.io",
   "scripts": {
