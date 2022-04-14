@@ -1,7 +1,7 @@
 {
   "name": "ReactNativeVideo",
   "widgetName": "ReactNativeVideo",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "React Native Video Widget",
   "copyright": "BSD",
   "author": "Ockert van Schalkwyk",
@@ -9,7 +9,7 @@
     "node": ">=12"
   },
   "config": {
-    "projectPath": "../test/"
+    "projectPath": "/mnt/c/Users/ockert//src/entidad/mendix-react-native-twilio-video-webrtc/test/"
   },
   "packagePath": "entidad.io",
   "scripts": {

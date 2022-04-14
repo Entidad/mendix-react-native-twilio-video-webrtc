@@ -1,4 +1,3 @@
-//https://www.freecodecamp.org/news/building-video-call-app-in-react-native/
 import{
 	Component,
 	createElement
@@ -8,219 +7,97 @@ import{
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	PermissionsAndroid,
 	TouchableHighlight
 }from"react-native";
-import {
+import{
 	TwilioVideoLocalView,
 	TwilioVideoParticipantView,
 	TwilioVideo
 }from"react-native-twilio-video-webrtc";
 import normalize from"react-native-normalize";
 import{widthPercentageToDP as wp,heightPercentageToDP as hp}from"react-native-responsive-screen";
-/* -------------------------------------------------------------------------------- */
-/* Tue Mar  1 15:45:20 SAST 2022                                                    */
-/* -------------------------------------------------------------------------------- */
-import {
-  checkMultiple,
-  request,
-  requestMultiple,
-  PERMISSIONS,
-  RESULTS,
-} from 'react-native-permissions';
+import{
+	checkMultiple,
+	request,
+	requestMultiple,
+	PERMISSIONS,
+	RESULTS,
+}from"react-native-permissions";
 const styles=StyleSheet.create({
 	container:{
-		flex:1
+		backgroundColor:"#000000",
+		width:wp("100%"),
+		height:hp("100%")
 	},
 	callContainer:{
-		flex:1,
-		bottom:0,
-		top:0,
-		left:0,
-		right:0,
-		minHeight:"100%"
-	},
-	input:{
-		height:50,
-		borderWidth:1,
-		marginRight:70,
-		marginLeft:70,
-		marginTop:50,
-		textAlign:"center",
-		backgroundColor:"white"
-	},
-	button:{
-		marginTop:100
-	},
-	localVideoOnButtonEnabled:{
-		bottom:"40%",
-		width:"35%",
-		left:"64%",
-		height:"25%",
-		zIndex:2
-	},
-	localVideoOnButtonDisabled:{
-		bottom:"30%",
-		width:"35%",
-		left:"64%",
-		height:"25%",
-		zIndex:2
-	},
-	remoteGrid:{
-		//flex:1,
-		//flexDirection:"column"
-	},
-	remoteVideo:{
-		width:wp("100%"),
 		height:hp("100%"),
-		zIndex:1
+		width:wp("100%"),
+		backgroundColor:"#000000",
+		zIndex:0,
+		elevation:0
 	},
-	optionsContainer:{
+		callContainerLocalVideo:{
+			width:"100%",
+			height:"100%",
+			zIndex:0,
+			elevation:0,
+			backgroundColor:"#000000",
+			zIndex:1,
+			elevation:1
+		},
+		callContainerRemoteVideo:{
+			width:"100%",
+			height:"80%",
+			backgroundColor:"#000000",
+			zIndex:2,
+			elevation:2
+		},
+	callTileContainer:{
+		position:"absolute",
+		bottom:"10%",
+		left:0,
+		height:"10%",
+		width:wp("100%"),
+		backgroundColor:"#000000"
+	},
+		remoteTileGrid:{
+			flex:1,
+			flexDirection:"row",
+			height:"100%",
+			width:"100%",
+			backgroundColor:"#000000"
+		},
+			remoteTileTouchableOpacity:{
+				zIndex:12,
+				elevation:12
+			},
+				remoteTileVideo:{
+					height:"100%",
+					aspectRatio:1,
+					backgroundColor:"#000000"
+				},
+	callButtonContainer:{
 		position:"absolute",
 		left:0,
 		bottom:0,
-		right:0,
-		height:100,
+		height:"10%",
 		flexDirection:"row",
 		alignItems:"center",
 		justifyContent:"space-evenly",
-		zIndex:8
+		backgroundColor:"#000000"
 	},
-	optionButton:{
-		width:60,
-		height:60,
-		marginLeft:10,
-		marginRight:10,
-		borderRadius:100/2,
-		backgroundColor:"grey",
-		justifyContent:"center",
-		alignItems:"center"
-	},
-	spacing:{
-		padding:10
-	},
-	inputLabel:{
-		fontSize:18,
-		color:"#000000"
-	},
-	buttonContainer:{
-		height:normalize(45),
-		flexDirection:"row",
-		justifyContent:"center",
-		alignItems:"center",
-		marginBottom:20,
-		borderRadius:30
-	},
-	loginButton:{
-		backgroundColor:"#1E3378",
-		justifyContent:"center",
-		alignItems:"center"
-	},
-	Buttontext:{
-		color:"white",
-		fontWeight:"500",
-		fontSize:18
-	},
-	inputBox:{
-		borderBottomColor:"#cccccc",
-		fontSize:16,
-		width:wp("95%"),
-		borderBottomWidth:1,
-		color:"#000000"
-	}
-});
-const defaultStyle={
-	container:{},
-	label:{
-		color:"#F6BB42"
-	}
-};
-/*
-export async function GetAllPermissions(){
-	//see also https://www.freecodecamp.org/news/building-video-call-app-in-react-native/
-	try{
-		const userResponse=await PermissionsAndroid.requestMultiple([
-			PermissionsAndroid.PERMISSIONS.CAMERA,
-			PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-			PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-		]);
-		return userResponse;
-	}catch(err){
-		this.log(err);
-	}
-	return null;
-}
-*/
-/* -------------------------------------------------------------------------------- */
-/* Tue Mar  1 15:45:20 SAST 2022                                                    */
-/* -------------------------------------------------------------------------------- */
-//const _checkPermissions = (callback) => {
-export function GetAllPermissions(){
-	const iosPermissions = [PERMISSIONS.IOS.CAMERA, PERMISSIONS.IOS.MICROPHONE];
-	const androidPermissions = [
-		PERMISSIONS.ANDROID.CAMERA,
-		PERMISSIONS.ANDROID.RECORD_AUDIO,
-	];
-	checkMultiple(
-		Platform.OS === 'ios' ? iosPermissions : androidPermissions,
-	).then((statuses) => {
-		const [CAMERA, AUDIO] =
-			Platform.OS === 'ios' ? iosPermissions : androidPermissions;
-		if (
-			statuses[CAMERA] === RESULTS.UNAVAILABLE ||
-			statuses[AUDIO] === RESULTS.UNAVAILABLE
-		) {
-			alert(
-				'Error',
-				'Hardware to support video calls is not available',
-			);
-		} else if (
-			statuses[CAMERA] === RESULTS.BLOCKED ||
-			statuses[AUDIO] === RESULTS.BLOCKED
-		) {
-			alert(
-				'Error',
-				'Permission to access hardware was blocked, please grant manually',
-			);
-		} else {
-			if (
-				statuses[CAMERA] === RESULTS.DENIED &&
-				statuses[AUDIO] === RESULTS.DENIED
-			) {
-				requestMultiple(
-					Platform.OS === 'ios' ? iosPermissions : androidPermissions,
-				).then((newStatuses) => {
-					if (
-						newStatuses[CAMERA] === RESULTS.GRANTED &&
-						newStatuses[AUDIO] === RESULTS.GRANTED
-					) {
-						//callback && callback();
-					} else {
-						alert('Error', 'One of the permissions was not granted');
-					}
-				});
-			} else if (
-				statuses[CAMERA] === RESULTS.DENIED ||
-				statuses[AUDIO] === RESULTS.DENIED
-			) {
-				request(statuses[CAMERA] === RESULTS.DENIED ? CAMERA : AUDIO).then(
-					(result) => {
-						if (result === RESULTS.GRANTED) {
-							//callback && callback();
-						} else {
-							alert('Error', 'Permission not granted');
-						}
-					},
-				);
-			} else if (
-				statuses[CAMERA] === RESULTS.GRANTED ||
-				statuses[AUDIO] === RESULTS.GRANTED
-			) {
-				//callback && callback();
+		ballButton:{
+			width:"33.33%",
+			height:"100%",
+			backgroundColor:"#000000",
+			justifyContent:"center",
+			alignItems:"center",
+		},
+			ballButtonText:{
+				color:"#FFFFFF",
+				fontSize:16
 			}
-		}
-	});
-};
+});
 export class ReactNativeVideoComponent extends Component{
 	constructor(props){
 		super(props);
@@ -233,6 +110,7 @@ export class ReactNativeVideoComponent extends Component{
 			status:"disconnected",
 			participants:new Map(),
 			videoTracks:new Map(),
+			currentVideoTrack:null,//new Map(),
 			connect:this.props.connect,
 			connected:this.props.connected,
 			mute:this.props.mute,
@@ -248,31 +126,20 @@ export class ReactNativeVideoComponent extends Component{
 	}
 	componentDidMount(){
 		this.log("componentDidMount:beg");
-		//alert("CHANGED");
-		//this.refs.twilioVideo.disconnect();//Tue Mar  1 18:03:34 SAST 2022
-		GetAllPermissions();
+		this.getAllPermissions(function(){
+			this.log("getAllPermissions:cb:beg");
+			this._onConnectButtonPress();
+			this.log("getAllPermissions:cb:end");
+		}.bind(this));
 		this.log("componentDidMount:end");
 	}
 	componentDidUpdate(prvprops,prvstate){
 		this.log("componentDidUpdate:beg");
-		/*
-		this.log(`componentDidUpdate:roomname:  ${prvprops.roomname}->${this.props.roomname}`);
-		this.log(`componentDidUpdate:identity:  ${prvprops.identity}->${this.props.identity}`);
-		this.log(`componentDidUpdate:token:     ${prvprops.token}->${this.props.token}`);
-		this.log(`componentDidUpdate:connect:   ${prvprops.connect}->${this.props.connect}`);
-		this.log(`componentDidUpdate:connected: ${prvprops.connected}->${this.props.connected}`);
-		this.log(`componentDidUpdate:mute:      ${prvprops.mute}->${this.props.mute}`);
-		this.log(`componentDidUpdate:muted:     ${prvprops.muted}->${this.props.muted}`);
-		*/
-		/* handle autocon (needs to be renamed) */
-		/* also needs to be manipulated from video events as required */
 		if(
 			this.state.status=="disconnected"&&
 			prvprops.connect!=this.props.connect&&
 			this.props.connect
 		){
-			this.log(`componentDidUpdate:connecting`);
-			this._onConnectButtonPress();
 		}else if(
 			this.state.status=="connected"&&
 			prvprops.connect!=this.props.connect&&
@@ -281,40 +148,115 @@ export class ReactNativeVideoComponent extends Component{
 			this.log(`componentDidUpdate:disconnecting`);
 			this._onEndButtonPress();
 		}
-		/* mute */
-		if(
-			prvprops.mute!=this.props.mute&&
-			this.props.mute
-		){
-			this.log(`componentDidUpdate:muting`);
-			this._onMuteButtonPress();
-		}else if(
-			prvprops.mute!=this.props.mute&&
-			!this.props.mute
-		){
-			this.log(`componentDidUpdate:unmuting`);
-			this._onMuteButtonPress();
-		}
 		this.log("componentDidUpdate:end");
 	}
 	componentWillUnmount(){
 		this.log("componentWillUnmount:beg");
 		try{
+			this.refs.twilioVideo.disconnect()
 			this.setState({status:"disconnected"})
 			this.setState({participants:new Map()})
 			this.setState({videoTracks:new Map()})
-			this.refs.twilioVideo.disconnect()
+			this.setState({currentVideoTrack:null})
 		}catch(e){
 			console.error(e.toString());
 		}
 		this.log("componentWillUnmount:end");
 	}
+	getAllPermissions(callback){
+		this.log("getAllPermissions:beg");
+		const iosPermissions=[
+			PERMISSIONS.IOS.CAMERA,PERMISSIONS.IOS.MICROPHONE
+		];
+		const androidPermissions=[
+			PERMISSIONS.ANDROID.CAMERA,
+			PERMISSIONS.ANDROID.RECORD_AUDIO,
+		];
+		// https://stackoverflow.com/questions/54819865/how-do-i-request-multiple-permissions-at-once-in-react-native
+		checkMultiple(
+			Platform.OS==='ios'?iosPermissions:androidPermissions,
+		).then((statuses)=>{
+			this.log("getAllPermissions:permissions acquired");
+			const[CAMERA,AUDIO]=Platform.OS==='ios'?iosPermissions:androidPermissions;
+			if(
+				statuses[CAMERA]===RESULTS.UNAVAILABLE||
+				statuses[AUDIO]===RESULTS.UNAVAILABLE
+			){
+				this.log("getAllPermissions:AUDIO or CAMERA UNAVAILABLE");
+				this.log("getAllPermissions:invoking callback anyways");
+				callback&&callback();
+			}else if(
+				statuses[CAMERA]===RESULTS.BLOCKED||
+				statuses[AUDIO]===RESULTS.BLOCKED
+			){
+				this.log("getAllPermissions:AUDIO or CAMERA BLOCKED");
+				alert(
+					'Error:'+
+					'Permission to access hardware was blocked, please grant manually',
+				);
+			}else{
+				if(
+					statuses[CAMERA]===RESULTS.DENIED&&
+					statuses[AUDIO]===RESULTS.DENIED
+				){
+					this.log("getAllPermissions:AUDIO and CAMERA DENIED");
+					requestMultiple(
+						Platform.OS==='ios'?iosPermissions:androidPermissions,
+					).then((newStatuses)=>{
+						if(
+							newStatuses[CAMERA]===RESULTS.GRANTED&&
+							newStatuses[AUDIO]===RESULTS.GRANTED
+						){
+							this.log("getAllPermissions:AUDIO and CAMERA GRANTED");
+							callback&&callback();
+						}else{
+							this.log("getAllPermissions:error:AUDIO and CAMERA not GRANTED");
+							alert(
+								'Error:'+
+								'One of the permissions was not granted'
+							);
+						}
+					});
+				} else if (
+					statuses[CAMERA]===RESULTS.DENIED||
+					statuses[AUDIO]===RESULTS.DENIED
+				) {
+					this.log("getAllPermissions:"+(statuses[CAMERA]===RESULTS.DENIED?"CAMERA":"AUDIO")+" DENIED");
+					this.log("getAllPermissions:requesting "+(statuses[CAMERA]===RESULTS.DENIED?"CAMERA":"AUDIO")+"");
+					request(statuses[CAMERA]===RESULTS.DENIED?CAMERA:AUDIO).then(
+						(result)=>{
+							if(result===RESULTS.GRANTED){
+								this.log("getAllPermissions:GRANTED");
+								this.log("getAllPermissions:executing callback");
+								callback&&callback();
+							}else{
+								this.log("getAllPermissions:Failed to GRANT");
+								alert(
+									'Error:'+
+									'Permission not granted'
+								);
+							}
+						},
+					);
+				}else if(
+					statuses[CAMERA]===RESULTS.GRANTED||
+					statuses[AUDIO]===RESULTS.GRANTED
+				){
+					this.log("getAllPermissions:AUDIO||CAMERA GRANTED");
+					this.log("getAllPermissions:executing callback");
+					callback&&callback();
+				}
+			}
+		});
+		this.log("getAllPermissions:end");
+	};
 	_onConnectButtonPress=()=>{
 		this.log("_onConnectButtonPress:beg");
 		if(
 			this.props.roomname!=""&&
 			this.props.token!=""
 		){
+			this.log("_onConnectButtonPress:connecting");
 			this.refs.twilioVideo.connect({
 				roomName:this.props.roomname,
 				accessToken:this.props.token
@@ -329,6 +271,7 @@ export class ReactNativeVideoComponent extends Component{
 		this.setState({status:"disconnected"})
 		this.setState({participants:new Map()})
 		this.setState({videoTracks:new Map()})
+		this.setState({currentVideoTrack:null})
 		this.log("_onEndButtonPress:end");
 	};
 	_onMuteButtonPress=()=>{
@@ -375,34 +318,44 @@ export class ReactNativeVideoComponent extends Component{
 	};
 	_onParticipantAddedVideoTrack=({participant,track})=>{
 		this.log("_onParticipantAddedVideoTrack:beg");
+		console.warn('participant:');
+		console.warn(participant);
+		console.warn('track:');
+		console.warn(track);
+		this.setState({currentVideoTrack:track});
+		console.warn(this.state.currentVideoTrack);
+		let val=new Map([
+			...this.state.videoTracks,
+			[
+				track.trackSid,
+				{
+					participantSid:participant.sid,
+					videoTrackSid:track.trackSid,
+					t:track
+				}
+			]
+		]);
+		console.warn(val);
+		console.warn(Object.keys(val));
+		console.warn(JSON.stringify(Object.keys(val)));
+		console.warn(JSON.stringify(val));
+		console.warn([...val.entries()].join(';'));
 		this.setState({
-			videoTracks:new Map([
-				...this.state.videoTracks,
-				[
-					track.trackSid,
-					{
-						participantSid:participant.sid,
-						videoTrackSid:track.trackSid
-					}
-				]
-			]),
+			videoTracks:val,
 		});
 		this.props.onParticipantAddedAction();
 		this.log("_onParticipantAddedVideoTrack:end");
 	};
 	_onParticipantRemovedVideoTrack=({participant,track})=>{
 		this.log("_onParticipantRemovedVideoTrack:beg");
+		this.setState({currentVideoTrack:null});
 		const videoTracks=this.state.videoTracks
-		videoTracks.delete(track.trackSid)
-		/*
-		const videoTracks=this.state.videoTracks;
-		this.state.videoTracks.delete(track.trackSid);
-		this.setState({
-			videoTracks:{
-				...videoTracks
-			}
+		videoTracks.delete(track.trackSid);
+		this.setState({videoTracks:videoTracks});
+		this.state.videoTracks.forEach((v,k)=>{
+			this.setState({currentVideoTrack:v.t});
 		});
-		*/
+
 		this.props.onParticipantRemovedAction();
 		this.log("_onParticipantRemovedVideoTrack:end");
 	};
@@ -419,134 +372,98 @@ export class ReactNativeVideoComponent extends Component{
 		this.log("render:end");
 		return(
 			<View style={styles.container}>
-			{
-				this.state.status==="disconnected"&&
-				<View>
-					<TouchableHighlight
-						style={[styles.buttonContainer,styles.loginButton]}
-						onPress={this._onConnectButtonPress}
-					>
-						<Text style={styles.Buttontext}>Connect</Text>
-					</TouchableHighlight>
-				</View>
-			}
-			{
-				(this.state.status==="connected"||this.state.status==='connecting')&&
-				<View style={styles.callContainer}>
-					{
-						this.state.status==="connected"&&
-						<View style={styles.remoteGrid}>
-							<TouchableOpacity
-								style={styles.remoteVideo}
-								onPress={()=>{this.setState({isButtonDisplay:!this.state.isButtonDisplay})}}
-							>
+				{
+					this.state.status==="connected"&&
+					this.state.currentVideoTrack==null&&
+					<View style={styles.callContainer}>
+						<TwilioVideoLocalView
+							enabled={true}
+							style={styles.callContainerLocalVideo}
+						/>
+					</View>
+				}
+				{
+					this.state.status==="connected"&&
+					this.state.currentVideoTrack!=null&&
+					<View style={styles.callContainer}>
+						<TwilioVideoParticipantView
+							key={this.state.currentVideoTrack.trackSid}
+							trackIdentifier={this.state.videoTracks.get(this.state.currentVideoTrack.trackSid)}
+							style={styles.callContainerRemoteVideo}
+						/>
+					</View>
+				}
+				{
+					(this.state.status==="connected"||this.state.status==='connecting')&&
+					<View style={styles.callTileContainer}>
+						{
+							this.state.status==="connected"&&
+							<View style={styles.remoteTileGrid}>
 								{
 									Array.from(this.state.videoTracks,([trackSid,trackIdentifier])=>{
 										return(
-											<View>
+											<TouchableOpacity
+												onPress={()=>{
+													this.setState({
+														currentVideoTrack:this.state.videoTracks.get(trackSid).t
+													});
+												}}
+												style={styles.remoteTileTouchableOpacity}
+											>
 												<TwilioVideoParticipantView
-													style={styles.remoteVideo}
+													style={styles.remoteTileVideo}
 													key={trackSid}
 													trackIdentifier={trackIdentifier}
 												/>
-											</View>
+											</TouchableOpacity>
 										)
 									})
 								}
-							</TouchableOpacity>
-							<TwilioVideoLocalView
-								enabled={true}
-								style={this.state.isButtonDisplay?styles.localVideoOnButtonEnabled:styles.localVideoOnButtonDisabled}
-							/>
-						</View>
-					}
-					<View
-						style={
-							{
-								display:this.state.isButtonDisplay?"flex":"none",
-								position:"absolute",
-								left:0,
-								bottom:0,
-								right:0,
-								height:100,
-								flexDirection:"row",
-								alignItems:"center",
-								justifyContent:"space-evenly",
-								zIndex:this.state.isButtonDisplay?2:0,
-							}
+							</View>
 						}
+					</View>
+				}
+				{
+					this.state.status==="connected"&&
+					<View
+						style={styles.callButtonContainer}
 					>
 						<TouchableOpacity
-							style={
-								{
-									display:this.state.isButtonDisplay?"flex":"none",
-									width:60,
-									height:60,
-									marginLeft:10,
-									marginRight:10,
-									borderRadius:100/2,
-									backgroundColor:"grey",
-									justifyContent:"center",
-									alignItems:"center"
-								}
-							}
+							style={styles.ballButton}
 							onPress={this._onMuteButtonPress}
 						>
 							{
-								<Text style={{color:"#FFFFFF",fontSize:24}}>Mute</Text>
+								<Text style={styles.ballButtonText}>{this.state.isAudioEnabled?"Mute":"Unmute"}</Text>
 							}
 						</TouchableOpacity>
 						<TouchableOpacity
-							style={
-								{
-									display:this.state.isButtonDisplay?"flex":"none",
-									width:60,
-									height:60,
-									marginLeft:10,
-									marginRight:10,
-									borderRadius:100/2,
-									backgroundColor:"grey",
-									justifyContent:"center",
-									alignItems:"center"
-								}
-							  }
+							style={styles.ballButton}
 							onPress={this._onEndButtonPress}>
 							{
-								<Text style={{color:"#FFFFFF",fontSize:24}}>End</Text>
+								<Text style={styles.ballButtonText}>End</Text>
 							}
 						</TouchableOpacity>
 						<TouchableOpacity
-							style={
-								{
-									display:this.state.isButtonDisplay?"flex":"none",
-									width:60,
-									height:60,
-									marginLeft:10,
-									marginRight:10,
-									borderRadius:100/2,
-									backgroundColor:"grey",
-									justifyContent:"center",
-									alignItems:"center"
-								}
-							}
+							style={styles.ballButton}
 							onPress={this._onFlipButtonPress}
 						>
 							{
-								<Text style={{color:"#FFFFFF",fontSize:24}}>Flip</Text>
+								<Text style={styles.ballButtonText}>Flip</Text>
 							}
 						</TouchableOpacity>
 					</View>
-				</View>
-			}
-			<TwilioVideo
-				ref="twilioVideo"
-				onRoomDidConnect={this._onRoomDidConnect}
-				onRoomDidDisconnect={this._onRoomDidDisconnect}
-				onRoomDidFailToConnect={this._onRoomDidFailToConnect}
-				onParticipantAddedVideoTrack={this._onParticipantAddedVideoTrack}
-				onParticipantRemovedVideoTrack={this._onParticipantRemovedVideoTrack}
-			/>
+				}
+				{
+					<TwilioVideo
+						ref="twilioVideo"
+						onRoomDidConnect={this._onRoomDidConnect}
+						onRoomDidDisconnect={this._onRoomDidDisconnect}
+						onRoomDidFailToConnect={this._onRoomDidFailToConnect}
+						onParticipantAddedVideoTrack={this._onParticipantAddedVideoTrack}
+						onParticipantRemovedVideoTrack={this._onParticipantRemovedVideoTrack}
+					/>
+				}
 			</View>
-		)
+		);
 	}
 }

@@ -28,30 +28,4 @@ public class Microflows
 		IMendixObject result = (IMendixObject)Core.microflowCall("RNV.ds_ctx").withParams(params).execute(context);
 		return result == null ? null : rnv.proxies.Ctx.initialize(context, result);
 	}
-	public static void ivk_a(IContext context, rnv.proxies.a _obj_a)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("obj_a", _obj_a == null ? null : _obj_a.getMendixObject());
-		Core.microflowCall("RNV.ivk_a").withParams(params).execute(context);
-	}
-	public static void ivk_arr_a(IContext context, java.util.List<rnv.proxies.a> _arr_a)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_arr_a = null;
-		if (_arr_a != null)
-		{
-			listparam_arr_a = new java.util.ArrayList<>();
-			for (rnv.proxies.a obj : _arr_a)
-				listparam_arr_a.add(obj.getMendixObject());
-		}
-		params.put("arr_a", listparam_arr_a);
-
-		Core.microflowCall("RNV.ivk_arr_a").withParams(params).execute(context);
-	}
-	public static void ivk_ctx(IContext context, rnv.proxies.Ctx _obj_ctx)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("obj_ctx", _obj_ctx == null ? null : _obj_ctx.getMendixObject());
-		Core.microflowCall("RNV.ivk_ctx").withParams(params).execute(context);
-	}
 }
