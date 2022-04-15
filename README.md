@@ -13,6 +13,7 @@ npm install react-native-normalize
 npm install react-native-version-number
 npm install react-native-responsive-screen
 npm install react-native-permissions
+npm install react-native-svg
 npm install https://github.com/blackuy/react-native-twilio-video-webrtc
 npm run build
 ```

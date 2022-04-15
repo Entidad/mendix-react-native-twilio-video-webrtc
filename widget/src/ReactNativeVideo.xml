@@ -109,6 +109,42 @@
 				<description/>
 			</property>
 		</propertyGroup>
+		<propertyGroup caption="UI 1">
+			<property key="image_mute" type="image" required="false">
+				<caption>Mute Image</caption>
+				<description/>
+			</property>
+			<property key="image_unmute" type="image" required="false">
+				<caption>Unmute image</caption>
+				<description/>
+			</property>
+			<property key="image_end" type="image" required="false">
+				<caption>End call image</caption>
+				<description/>
+			</property>
+			<property key="image_flip" type="image" required="false">
+				<caption>Flip image</caption>
+				<description/>
+			</property>
+		</propertyGroup>
+		<propertyGroup caption="UI 2">
+			<property key="text_mute" type="string" required="false" defaultValue="Mute">
+				<caption>Mute text</caption>
+				<description/>
+			</property>
+			<property key="text_unmute" type="string" required="false" defaultValue="Unmute">
+				<caption>Unmute text</caption>
+				<description/>
+			</property>
+			<property key="text_end" type="string" required="false" defaultValue="End">
+				<caption>End call text</caption>
+				<description/>
+			</property>
+			<property key="text_flip" type="string" required="false" defaultValue="Flip">
+				<caption>Flip text</caption>
+				<description/>
+			</property>
+		</propertyGroup>
 	</properties>
 </widget>
 

@@ -10,6 +10,15 @@ import{
 	TouchableHighlight
 }from"react-native";
 import{
+	Image
+}from"mendix/components/native/Image";
+import{
+	mergeNativeStyles
+}from"@mendix/pluggable-widgets-tools";
+import{
+	SvgXml
+}from"react-native-svg";
+import{
 	TwilioVideoLocalView,
 	TwilioVideoParticipantView,
 	TwilioVideo
@@ -23,7 +32,7 @@ import{
 	PERMISSIONS,
 	RESULTS,
 }from"react-native-permissions";
-const styles=StyleSheet.create({
+/*const*/styles=StyleSheet.create({
 	container:{
 		backgroundColor:"#000000",
 		width:wp("100%"),
@@ -86,16 +95,20 @@ const styles=StyleSheet.create({
 		justifyContent:"space-evenly",
 		backgroundColor:"#000000"
 	},
-		ballButton:{
+		callButtonContainerButton:{
 			width:"33.33%",
 			height:"100%",
 			backgroundColor:"#000000",
 			justifyContent:"center",
 			alignItems:"center",
 		},
-			ballButtonText:{
+			callButtonContainerButtonText:{
 				color:"#FFFFFF",
 				fontSize:16
+			},
+			callButtonContainerButtonImage:{
+				width:"100%",
+				height:"100%"
 			}
 });
 export class ReactNativeVideoComponent extends Component{
@@ -103,6 +116,13 @@ export class ReactNativeVideoComponent extends Component{
 		super(props);
 		this.cnam="RnvComp";
 		this.log("constructor:beg");
+		console.warn('styles');
+		console.warn(styles);
+		console.warn('this.props.style');
+		console.warn(this.props.style);
+		styles=mergeNativeStyles(styles,this.props.style);
+		//console.warn('styles');
+		//console.warn(styles);
 		this.state={
 			isAudioEnabled:true,
 			isVideoEnabled:true,
@@ -394,7 +414,7 @@ export class ReactNativeVideoComponent extends Component{
 					</View>
 				}
 				{
-					(this.state.status==="connected"||this.state.status==='connecting')&&
+					(this.state.status==="connected"||this.state.status==='connecting')&&this.state.currentVideoTrack!=null&&
 					<View style={styles.callTileContainer}>
 						{
 							this.state.status==="connected"&&
@@ -429,26 +449,59 @@ export class ReactNativeVideoComponent extends Component{
 						style={styles.callButtonContainer}
 					>
 						<TouchableOpacity
-							style={styles.ballButton}
+							style={styles.callButtonContainerButton}
 							onPress={this._onMuteButtonPress}
 						>
+							{this.props.text_mute!=""&&this.props.text_unmute!=""&&
+								<Text style={styles.callButtonContainerButtonText}>{this.state.isAudioEnabled?this.props.text_mute:this.props.text_unmute}</Text>
+							}
 							{
-								<Text style={styles.ballButtonText}>{this.state.isAudioEnabled?"Mute":"Unmute"}</Text>
+								typeof(this.props.image_mute)=='string'&&this.state.isAudioEnabled&&
+								<SvgXml style={styles.callButtonContainerButtonImage} xml={this.props.image_mute} width="100%" height="100%" />
+							}
+							{
+								typeof(this.props.image_mute)=='number'&&this.state.isAudioEnabled&&
+								<Image style={styles.callButtonContainerButtonImage} source={this.props.image_mute}/>
+							}
+							{
+								typeof(this.props.image_unmute)=='string'&&!this.state.isAudioEnabled&&
+								<SvgXml style={styles.callButtonContainerButtonImage} xml={this.props.image_unmute} width="100%" height="100%" />
+							}
+							{
+								typeof(this.props.image_unmute)=='number'&&!this.state.isAudioEnabled&&
+								<Image style={styles.callButtonContainerButtonImage} source={this.props.image_unmute}/>
 							}
 						</TouchableOpacity>
 						<TouchableOpacity
-							style={styles.ballButton}
-							onPress={this._onEndButtonPress}>
+							style={styles.callButtonContainerButton}
+							onPress={this._onEndButtonPress}
+						>
+							{this.props.text_end!=""&&
+								<Text style={styles.callButtonContainerButtonText}>{this.props.text_end}</Text>
+							}
 							{
-								<Text style={styles.ballButtonText}>End</Text>
+								typeof(this.props.image_end)=='string'&&
+								<SvgXml style={styles.callButtonContainerButtonImage} xml={this.props.image_end} width="100%" height="100%" />
+							}
+							{
+								typeof(this.props.image_end)=='number'&&
+								<Image style={styles.callButtonContainerButtonImage} source={this.props.image_end}/>
 							}
 						</TouchableOpacity>
 						<TouchableOpacity
-							style={styles.ballButton}
+							style={styles.callButtonContainerButton}
 							onPress={this._onFlipButtonPress}
 						>
+							{this.props.text_flip!=""&&
+								<Text style={styles.callButtonContainerButtonText}>{this.props.text_flip}</Text>
+							}
 							{
-								<Text style={styles.ballButtonText}>Flip</Text>
+								typeof(this.props.image_flip)=='string'&&
+								<SvgXml style={styles.callButtonContainerButtonImage} xml={this.props.image_flip} width="100%" height="100%" />
+							}
+							{
+								typeof(this.props.image_flip)=='number'&&
+								<Image style={styles.callButtonContainerButtonImage} source={this.props.image_flip}/>
 							}
 						</TouchableOpacity>
 					</View>

@@ -1,6 +1,7 @@
 import{Component,createElement}from"react";
 import{Big}from"big.js";
 import{ReactNativeVideoComponent}from"./components/ReactNativeVideoComponent";
+import{mergeNativeStyles}from"@mendix/pluggable-widgets-tools";
 export class ReactNativeVideo extends Component{
 	constructor(props){
 		super(props);
@@ -10,20 +11,10 @@ export class ReactNativeVideo extends Component{
 	}
 	log(v){
 		if(!this.props.debugon)return;
-		//v=JSON.stringify(v);
 		console.error(`${this.cnam}:${v}`);
 	}
 	componentDidUpdate(prvprops,prvstate){
 		this.log(`componentDidUpdate:beg`);
-		/*
-		this.log(`componentDidUpdate:roomname:  ${JSON.stringify(prvprops.roomname.value)}->${JSON.stringify(this.props.roomname.value)}`);
-		this.log(`componentDidUpdate:identity:  ${JSON.stringify(prvprops.identity.value)}->${JSON.stringify(this.props.identity.value)}`);
-		this.log(`componentDidUpdate:token:     ${JSON.stringify(prvprops.token.value)}->${JSON.stringify(this.props.token.value)}`);
-		this.log(`componentDidUpdate:connect:   ${JSON.stringify(prvprops.connect.value)}->${JSON.stringify(this.props.connect.value)}`);
-		this.log(`componentDidUpdate:connected: ${JSON.stringify(prvprops.connected.value)}->${JSON.stringify(this.props.connected.value)}`);
-		this.log(`componentDidUpdate:mute:      ${JSON.stringify(prvprops.mute.value)}->${JSON.stringify(this.props.mute.value)}`);
-		this.log(`componentDidUpdate:muted:     ${JSON.stringify(prvprops.muted.value)}->${JSON.stringify(this.props.muted.value)}`);
-		*/
 		this.log(`componentDidUpdate:end`);
 	}
 	componentDidMount(){
@@ -224,9 +215,14 @@ export class ReactNativeVideo extends Component{
 		const connected=this.props.connect?this.props.connect.value||false:false;
 		const mute=this.props.connect?this.props.connect.value||false:false;
 		const muted=this.props.connect?this.props.connect.value||false:false;
-
-		//this.props.participants.setValue('42');
-
+		const image_mute=this.props.image_mute?this.props.image_mute.value||null:null;
+		const image_unmute=this.props.image_unmute?this.props.image_unmute.value||null:null;
+		const image_flip=this.props.image_flip?this.props.image_flip.value||null:null;
+		const image_end=this.props.image_end?this.props.image_end.value||null:null;
+		const text_mute=this.props.text_mute||"";
+		const text_unmute=this.props.text_unmute||"";
+		const text_flip=this.props.text_flip||"";
+		const text_end=this.props.text_end||"";
 		this.log(`render:end`);
 		return<ReactNativeVideoComponent
 			roomname={roomname}
@@ -246,9 +242,15 @@ export class ReactNativeVideo extends Component{
 			onErrorAction={this.onErrorAction.bind(this)}
 			onParticipantAddedAction={this.onParticipantAddedAction.bind(this)}
 			onParticipantRemovedAction={this.onParticipantRemovedAction.bind(this)}
+			image_mute={image_mute}
+			image_unmute={image_unmute}
+			image_flip={image_flip}
+			image_end={image_end}
+			text_mute={text_mute}
+			text_unmute={text_unmute}
+			text_flip={text_flip}
+			text_end={text_end}
+			style={this.props.style}
 		/>;
 	}
 }
-
-
-
