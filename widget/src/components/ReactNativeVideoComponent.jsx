@@ -34,57 +34,81 @@ import{
 }from"react-native-permissions";
 /*const*/styles=StyleSheet.create({
 	container:{
-		backgroundColor:"#000000",
+		backgroundColor:"#0a1325",
 		width:wp("100%"),
 		height:hp("100%")
 	},
 	callContainer:{
 		height:hp("100%"),
 		width:wp("100%"),
-		backgroundColor:"#000000",
+		//backgroundColor:"#000000",
 		zIndex:0,
-		elevation:0
+		elevation:0,
+		padding:12,
+		borderWidth: 5,
+		//borderRadius: 10
 	},
-		callContainerLocalVideo:{
-			width:"100%",
-			height:"100%",
-			zIndex:0,
-			elevation:0,
-			backgroundColor:"#000000",
-			zIndex:1,
-			elevation:1
+		callContainerLocalVideoWrapper:{
+			borderWidth:5,
+			borderRadius:5,
+			borderColor:"#FFFFFF",
+			height:"90%",
 		},
-		callContainerRemoteVideo:{
-			width:"100%",
-			height:"80%",
-			backgroundColor:"#000000",
-			zIndex:2,
-			elevation:2
+			callContainerLocalVideo:{
+				width:"100%",
+				height:"100%",
+				//margin:12,
+				//borderRadius:12,
+				zIndex:0,
+				elevation:0,
+				//backgroundColor:"#000000",
+				zIndex:1,
+				elevation:1,
+			},
+		callContainerRemoteVideoWrapper:{
+			borderWidth:5,
+			borderRadius:5,
+			borderColor:"#FFFFFF",
+			height:"70%",
 		},
+			callContainerRemoteVideo:{
+				width:"100%",
+				height:"100%",
+				//backgroundColor:"#000000",
+				zIndex:2,
+				elevation:2
+			},
 	callTileContainer:{
 		position:"absolute",
 		bottom:"10%",
 		left:0,
-		height:"10%",
+		height:"20%",
 		width:wp("100%"),
-		backgroundColor:"#000000"
+		padding:17.5,
+		//backgroundColor:"#000000"
 	},
 		remoteTileGrid:{
 			flex:1,
 			flexDirection:"row",
 			height:"100%",
 			width:"100%",
-			backgroundColor:"#000000"
+			//backgroundColor:"#000000"
 		},
 			remoteTileTouchableOpacity:{
 				zIndex:12,
 				elevation:12
 			},
-				remoteTileVideo:{
-					height:"100%",
-					aspectRatio:1,
-					backgroundColor:"#000000"
+				remoteTileVideoWrapper:{
+					borderWidth:5,
+					borderColor:"white",
+					borderRadius:5,
+					marginRight:10,
 				},
+					remoteTileVideo:{
+						height:"100%",
+						aspectRatio:1,
+						//backgroundColor:"#000000"
+					},
 	callButtonContainer:{
 		position:"absolute",
 		left:0,
@@ -93,14 +117,15 @@ import{
 		flexDirection:"row",
 		alignItems:"center",
 		justifyContent:"space-evenly",
-		backgroundColor:"#000000"
+		//backgroundColor:"#000000"
 	},
 		callButtonContainerButton:{
 			width:"33.33%",
 			height:"100%",
-			backgroundColor:"#000000",
+			//backgroundColor:"#000000",
 			justifyContent:"center",
 			alignItems:"center",
+				//padding:12,
 		},
 			callButtonContainerButtonText:{
 				color:"#FFFFFF",
@@ -108,7 +133,7 @@ import{
 			},
 			callButtonContainerButtonImage:{
 				width:"100%",
-				height:"100%"
+				height:"100%",
 			}
 });
 export class ReactNativeVideoComponent extends Component{
@@ -116,13 +141,7 @@ export class ReactNativeVideoComponent extends Component{
 		super(props);
 		this.cnam="RnvComp";
 		this.log("constructor:beg");
-		console.warn('styles');
-		console.warn(styles);
-		console.warn('this.props.style');
-		console.warn(this.props.style);
-		styles=mergeNativeStyles(styles,this.props.style);
-		//console.warn('styles');
-		//console.warn(styles);
+		//styles=mergeNativeStyles(styles,this.props.style);
 		this.state={
 			isAudioEnabled:true,
 			isVideoEnabled:true,
@@ -338,12 +357,7 @@ export class ReactNativeVideoComponent extends Component{
 	};
 	_onParticipantAddedVideoTrack=({participant,track})=>{
 		this.log("_onParticipantAddedVideoTrack:beg");
-		console.warn('participant:');
-		console.warn(participant);
-		console.warn('track:');
-		console.warn(track);
 		this.setState({currentVideoTrack:track});
-		console.warn(this.state.currentVideoTrack);
 		let val=new Map([
 			...this.state.videoTracks,
 			[
@@ -355,11 +369,6 @@ export class ReactNativeVideoComponent extends Component{
 				}
 			]
 		]);
-		console.warn(val);
-		console.warn(Object.keys(val));
-		console.warn(JSON.stringify(Object.keys(val)));
-		console.warn(JSON.stringify(val));
-		console.warn([...val.entries()].join(';'));
 		this.setState({
 			videoTracks:val,
 		});
@@ -396,21 +405,25 @@ export class ReactNativeVideoComponent extends Component{
 					this.state.status==="connected"&&
 					this.state.currentVideoTrack==null&&
 					<View style={styles.callContainer}>
-						<TwilioVideoLocalView
-							enabled={true}
-							style={styles.callContainerLocalVideo}
-						/>
+						<View style={styles.callContainerLocalVideoWrapper}>
+							<TwilioVideoLocalView
+								enabled={true}
+								style={styles.callContainerLocalVideo}
+							/>
+						</View>
 					</View>
 				}
 				{
 					this.state.status==="connected"&&
 					this.state.currentVideoTrack!=null&&
 					<View style={styles.callContainer}>
-						<TwilioVideoParticipantView
-							key={this.state.currentVideoTrack.trackSid}
-							trackIdentifier={this.state.videoTracks.get(this.state.currentVideoTrack.trackSid)}
-							style={styles.callContainerRemoteVideo}
-						/>
+						<View style={styles.callContainerRemoteVideoWrapper}>
+							<TwilioVideoParticipantView
+								key={this.state.currentVideoTrack.trackSid}
+								trackIdentifier={this.state.videoTracks.get(this.state.currentVideoTrack.trackSid)}
+								style={styles.callContainerRemoteVideo}
+							/>
+						</View>
 					</View>
 				}
 				{
@@ -430,11 +443,13 @@ export class ReactNativeVideoComponent extends Component{
 												}}
 												style={styles.remoteTileTouchableOpacity}
 											>
-												<TwilioVideoParticipantView
-													style={styles.remoteTileVideo}
-													key={trackSid}
-													trackIdentifier={trackIdentifier}
-												/>
+												<View style={styles.remoteTileVideoWrapper}>
+													<TwilioVideoParticipantView
+														style={styles.remoteTileVideo}
+														key={trackSid}
+														trackIdentifier={trackIdentifier}
+													/>
+												</View>
 											</TouchableOpacity>
 										)
 									})

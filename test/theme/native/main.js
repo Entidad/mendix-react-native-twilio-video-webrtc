@@ -1,13 +1,13 @@
 export const CustomVideo={
 	container:{
-		backgroundColor:"#000000",
+		backgroundColor:"#0a1325",
 		//width:wp("100%"),
 		//height:hp("100%")
 	},
 	callContainer:{
 		//height:hp("100%"),
 		//width:wp("100%"),
-		backgroundColor:"#000000",
+		//backgroundColor:"#000000",
 		zIndex:0,
 		elevation:0
 	},
@@ -16,14 +16,14 @@ export const CustomVideo={
 			height:"100%",
 			zIndex:0,
 			elevation:0,
-			backgroundColor:"#000000",
+			//backgroundColor:"#000000",
 			zIndex:1,
 			elevation:1
 		},
 		callContainerRemoteVideo:{
 			width:"100%",
 			height:"80%",
-			backgroundColor:"#000000",
+			//backgroundColor:"#000000",
 			zIndex:2,
 			elevation:2
 		},
@@ -33,14 +33,14 @@ export const CustomVideo={
 		left:0,
 		height:"10%",
 		//width:wp("100%"),
-		backgroundColor:"#000000"
+		//backgroundColor:"#000000"
 	},
 		remoteTileGrid:{
 			flex:1,
 			flexDirection:"row",
 			height:"100%",
 			width:"100%",
-			backgroundColor:"#000000"
+			//backgroundColor:"#000000"
 		},
 			remoteTileTouchableOpacity:{
 				zIndex:12,
@@ -49,7 +49,7 @@ export const CustomVideo={
 				remoteTileVideo:{
 					height:"100%",
 					aspectRatio:1,
-					backgroundColor:"#000000"
+					//backgroundColor:"#000000"
 				},
 	callButtonContainer:{
 		position:"absolute",
@@ -59,7 +59,7 @@ export const CustomVideo={
 		flexDirection:"row",
 		alignItems:"center",
 		justifyContent:"space-evenly",
-		backgroundColor:"#FFFFFF"
+		//backgroundColor:"#FFFFFF"
 	},
 		callButtonContainerButton:{
 			width:"33.33%",
