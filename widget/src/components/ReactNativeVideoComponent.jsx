@@ -427,7 +427,12 @@ export class ReactNativeVideoComponent extends Component{
 					this.state.status==="connected"&&
 					this.state.currentVideoTrack!=null&&
 					<View style={styles.callContainer}>
-						<View style={styles.callContainerRemoteVideoWrapper}>
+						<View style={{
+							borderWidth:5,
+							borderRadius:5,
+							borderColor:"#FFFFFF",
+							height:this.state.videoTracks.size>1?"70%":"90%",
+						}}>
 							<TwilioVideoParticipantView
 								key={this.state.currentVideoTrack.trackSid}
 								trackIdentifier={this.state.videoTracks.get(this.state.currentVideoTrack.trackSid)}
@@ -437,7 +442,7 @@ export class ReactNativeVideoComponent extends Component{
 					</View>
 				}
 				{
-					(this.state.status==="connected"||this.state.status==='connecting')&&this.state.currentVideoTrack!=null&&
+					(this.state.status==="connected"||this.state.status==='connecting')&&this.state.currentVideoTrack!=null&&this.state.videoTracks.size>1&&
 					<View style={styles.callTileContainer}>
 						{
 							this.state.status==="connected"&&
