@@ -33,6 +33,15 @@ nvm use --lts
 npm install
 ```
 
+Depending on your version of node, you might need to use the following
+
+```
+nvm use --lts
+npm install --legacy-peer-deps
+```
+
+This procedure works on node `v16.14.2`
+
 For building from command line, disable linting by ammending `./android/build.gradle` as follows
 
 ```
@@ -72,6 +81,8 @@ In the source tree, run the following:
 nvm use --lts
 npm install
 ```
+
+This procedure works on node `v16.14.2`
 
 Edit the `./ios/Podfile` and change the platform as follows:
 

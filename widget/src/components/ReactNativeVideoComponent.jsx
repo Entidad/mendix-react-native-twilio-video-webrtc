@@ -7,7 +7,8 @@ import{
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	TouchableHighlight
+	TouchableHighlight,
+	ScrollView
 }from"react-native";
 import{
 	Image
@@ -32,6 +33,11 @@ import{
 	PERMISSIONS,
 	RESULTS,
 }from"react-native-permissions";
+//import KeepAwake from '@sayem314/react-native-keep-awake';
+//import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake';
+
+
+
 /*const*/styles=StyleSheet.create({
 	container:{
 		backgroundColor:"#0a1325",
@@ -138,6 +144,7 @@ import{
 });
 export class ReactNativeVideoComponent extends Component{
 	constructor(props){
+
 		super(props);
 		this.cnam="RnvComp";
 		this.log("constructor:beg");
@@ -165,6 +172,7 @@ export class ReactNativeVideoComponent extends Component{
 	}
 	componentDidMount(){
 		this.log("componentDidMount:beg");
+		//activateKeepAwake(); //expo
 		this.getAllPermissions(function(){
 			this.log("getAllPermissions:cb:beg");
 			this._onConnectButtonPress();
@@ -191,6 +199,7 @@ export class ReactNativeVideoComponent extends Component{
 	}
 	componentWillUnmount(){
 		this.log("componentWillUnmount:beg");
+		//deactivateKeepAwake(); //expo
 		try{
 			this.refs.twilioVideo.disconnect()
 			this.setState({status:"disconnected"})
@@ -398,6 +407,7 @@ export class ReactNativeVideoComponent extends Component{
 		const connected=this.props.connected;
 		const mute=this.props.mute;
 		const muted=this.props.muted;
+		//<KeepAwake/>
 		this.log("render:end");
 		return(
 			<View style={styles.container}>
@@ -431,7 +441,7 @@ export class ReactNativeVideoComponent extends Component{
 					<View style={styles.callTileContainer}>
 						{
 							this.state.status==="connected"&&
-							<View style={styles.remoteTileGrid}>
+							<ScrollView horizontal={true} style={styles.remoteTileGrid}>
 								{
 									Array.from(this.state.videoTracks,([trackSid,trackIdentifier])=>{
 										return(
@@ -454,7 +464,7 @@ export class ReactNativeVideoComponent extends Component{
 										)
 									})
 								}
-							</View>
+							</ScrollView>
 						}
 					</View>
 				}
