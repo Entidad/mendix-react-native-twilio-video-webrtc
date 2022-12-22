@@ -1,7 +1,7 @@
 {
   "name": "ReactNativeVideo",
   "widgetName": "ReactNativeVideo",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "React Native Video Widget",
   "copyright": "BSD",
   "author": "Ockert van Schalkwyk",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "react-native-normalize": "^1.0.1",
-    "react-native-permissions": "^3.3.0",
+    "react-native-permissions": "^3.3.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-svg": "^12.3.0",
     "react-native-twilio-video-webrtc": "^2.1.0",
