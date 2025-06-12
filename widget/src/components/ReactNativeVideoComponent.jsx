@@ -50,7 +50,7 @@ import {
 		//backgroundColor:"#000000",
 		zIndex: 0,
 		elevation: 0,
-		padding: 15,
+		padding: 20,
 		borderWidth: 2
 		//borderRadius: 10
 	},
