@@ -36,11 +36,12 @@ npm install
 Depending on your version of node, you might need to use the following
 
 ```
-nvm use --lts
+nvm use 20
 npm install --legacy-peer-deps
 ```
 
-This procedure works on node `v16.14.2`
+This procedure works on node `v20.16.0` 
+
 
 For building from command line, disable linting by ammending `./android/build.gradle` as follows
 
