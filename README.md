@@ -8,7 +8,7 @@ TODO
 For the widget, download one of the [releases](https://github.com/Entidad/mendix-react-native-twilio-video-webrtc/releases) or build from source as follows
 
 ```
-cd ./mendix-react-native-video-webrtc@2.1.0
+cd ../widget
 npm install react-native-normalize
 npm install react-native-version-number
 npm install react-native-responsive-screen
