@@ -1,12 +1,12 @@
 {
   "name": "ReactNativeVideo",
   "widgetName": "ReactNativeVideo",
-  "version": "0.0.16",
+  "version": "0.0.18",
   "description": "React Native Video Widget",
   "copyright": "© 2021-2025 Entidad. All Rights Reserved.",
   "author": "Ockert van Schalkwyk",
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
   },
   "config": {
     "projectPath": "/mnt/c/Users/ockert//src/entidad/mendix-react-native-twilio-video-webrtc/test/"
@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "react-native-normalize": "^1.0.1",
-    "react-native-permissions": "^3.3.1",
+    "react-native-permissions": "3.3.1",
     "react-native-responsive-screen": "^1.4.2",
-    "react-native-svg": "^12.3.0",
-    "react-native-twilio-video-webrtc": "^3.1.0",
+    "react-native-svg": "15.11.2",
+    "react-native-twilio-video-webrtc": "3.1.0",
     "react-native-version-number": "^0.3.6"
   }
 }
