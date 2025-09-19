@@ -1,7 +1,7 @@
 {
   "name": "ReactNativeVideo",
   "widgetName": "ReactNativeVideo",
-  "version": "0.0.18",
+  "version": "1.0.0",
   "description": "React Native Video Widget",
   "copyright": "© 2021-2025 Entidad. All Rights Reserved.",
   "author": "Ockert van Schalkwyk",
@@ -25,11 +25,11 @@
     "url": "https://github.com/Entidad/mendix-react-native-twilio-video-webrtc/issues"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^10.12.1"
+    "@mendix/pluggable-widgets-tools": "^10.18.2"
   },
   "dependencies": {
     "react-native-normalize": "^1.0.1",
-    "react-native-permissions": "3.3.1",
+    "react-native-permissions": "4.1.5",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-svg": "15.11.2",
     "react-native-twilio-video-webrtc": "3.1.0",
